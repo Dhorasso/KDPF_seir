@@ -16,19 +16,18 @@ This repository contains the implementation of a stochastic model to simulate an
 The COVID-19 Stochastic Model aims to provide a detailed simulation of the virus's spread within the population of Ireland. By incorporating real data and using a particle filter, the model can produce accurate state estimates and time-varying reproduction number
 
 ## Model Description
-The model divides the population into various compartments to simulate disease dynamics:
-- **S**: Susceptible
-- **E**: Exposed
-- **Ips**: Pre-symptomatic
-- **Ias**: Asymptomatic
-- **Isi**: Symptomatic isolated
-- **Ist**: Symptomatic awaiting for test result
-- **Ipi**: Symptomatic with positive test result
-- **Isn**: Symptomatic not isolated or not tested
-- **R**: Removed
-- **D**: Deaths
-- **NI**: Newly Infected
-The transition between the compartment it assume to follow a Binomial distribution
+For a simple SEIR model, the modelled states are: susceptibles (S), exposed (E), infected (I) and removed (R).
+
+$$
+\begin{aligned}
+S_{t+ \delta t} &= S_{t} - Y_{SE}(t), & Y_{SE}(t) &\sim \mathrm{Bin}\left(S_{t}, 1-e^{-\beta \frac{ I_{t}}{N} \delta t}\right) \\
+E_{t+ \delta t} &= E_{t} + Y_{SE}(t) - Y_{EI}(t), & Y_{EI}(t) &\sim \mathrm{Bin}\left(E_{t}, 1-e^{-\sigma \delta t}\right) \\
+I_{t+ \delta t} &= I_{t} + Y_{EI}(t) -  Y_{IR}(t), & Y_{IR}(t) &\sim \mathrm{Bin}\left(I_{t}, 1-e^{-\gamma \delta t}\right) \\
+R_{t+ \delta t} &= R_{t} + Y_{IR}(t). &
+\end{aligned}
+$$
+
+When there is not many vraiation in the data, the observation of daily new infections is modeled using the Poisson distribution, which offers an intuitive interpretation for generating daily count events on a given day, denoted as $y_{t}|x_{t}\sim\mathrm{Poisson}(Y_{EI}(t))$.
 
 ## Installation
 To install and set up the environment for running this model, follow these steps:
