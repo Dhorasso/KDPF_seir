@@ -43,7 +43,7 @@ To install and set up the environment for running this model, follow these steps
     ```
 
 
-##  Kernel_Smoothing_Filter Parameters
+##  Kernel_Smoothing_Filter Inputs
 
 Perform Sequential Monte Carlo (Particle Filter) for state-space models.
 
