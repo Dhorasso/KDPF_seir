@@ -64,12 +64,12 @@ Perform Sequential Monte Carlo (Particle Filter) for state-space models.
 #### Initial State Information (`initial_state_info`)
 
 The `initial_state_info` dictionary should contain the initial state variables of the model. Each state variable should be defined with the following information:
-- `prior`: A list specifying `[lower_bound, upper_bound, mean, std_deviation, distribution_type]`. The distribution type can be 'fixed' if the value is known or 'uniform' if it follows a uniform distribution.
+- `state name `and  `prior distribution`: A list specifying `[lower_bound, upper_bound, mean, std_deviation, distribution_type]`. The distribution type can be 'fixed' if the value is known or 'uniform' if it follows a uniform distribution.
 #### Initial Parameters Information (`initial_theta_info`)
 
  The initial_theta_info dictionary should contain the initial parameters of the model. Each parameter should be defined with the following information:
 
--prior: A list specifying `[mean, std_deviation, lower_bound, upper_bound, distribution_type]`.
+-`parameter name` and `prior distribution`: A list specifying `[lower_bound/shape, upper_bound/scale, mean, std_deviation, distribution_type]`. The distribution can be 'uniform',  'normal', 'lognormal', 'gamma', 'invgamma'.
 
 ##  Model outputs 
 - `margLogLike`: Marginal log-likelihood of the observed data given the model.
