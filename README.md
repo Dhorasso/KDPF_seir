@@ -8,9 +8,9 @@ This repository contains the implementation of a stochastic model to simulate an
 - [Introduction](#introduction)
 - [Model Description](#model-description)
 - [Installation](#installation)
-- [Example Usage](#example-usage)
 - [Model Parameters](#model-parameters)
 - [Model Outputs](#model-outputs)
+- [Example Usage](#example-usage)
 
 ## Introduction
 The COVID-19 Stochastic Model aims to provide a detailed simulation of the virus's spread within the population of Ireland. By incorporating real data and using a particle filter, the model can produce accurate state estimates and time-varying reproduction number
@@ -83,7 +83,11 @@ Below is an example of how to use the Particle Filter with the stochastic model 
 # Import necessary modules
 import numpy as np
 import pandas as pd
-from particle_filter import Particle_Filter
+from joblib import Parallel, delayed
+from tqdm import tqdm
+from filter_preprocessing import initialization_state_theta, solve_model
+from weight_processing import resampling_style, compute_log_weight
+from particle_filter import Kernel_Smoothing_Filter
 
 # Example data
 data = pd.read_csv('covid19_ireland_data.csv')  # Replace with actual data file
