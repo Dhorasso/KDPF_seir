@@ -34,6 +34,23 @@ def replace_outliers(matrix):
 
 
 
+def trace_smc(Traject):
+
+    matrix_dict = {}
+    stateName=list(Traject[0].columns[1:])
+    # Iterate through each state name
+    for state in stateName:
+      # Extract matrices for each state from all dataframes
+      state_matrices = [df[state].values.reshape(1, -1) for df in Traject]
+      # Concatenate matrices horizontally
+      combined_matrix = np.concatenate(state_matrices, axis=1)
+      # Reshape the combined matrix based on the shape of the original dataframe
+      reshaped_matrix = combined_matrix.reshape(-1,Traject[0].shape[0])
+      # Store the reshaped matrix in the dictionary with state name as the key
+      matrix_dict[state] = reshaped_matrix 
+    return matrix_dict
+
+
 def plot_smc(matrix, color='dodgerblue', med=False):
     # matrix=replace_outliers(matrix)
     T = matrix.shape[1]
@@ -54,6 +71,42 @@ def plot_smc(matrix, color='dodgerblue', med=False):
     p += geom_line(aes(x=time_steps, y=median_values), color='k',size=1.2)
     return p
 
+def trace_smc_covid(Traject):
+    matrix_dict = {}
+    stateName = list(Traject[0].columns[1:])  # Assuming Traject is a list of DataFrames with state variables
+    # Iterate through each state name
+    for state in stateName:
+        # Extract matrices for each state from all dataframes
+        state_matrices = [df[state].values.reshape(1, -1) for df in Traject]
+        # Concatenate matrices horizontally
+        combined_matrix = np.concatenate(state_matrices, axis=0)
+        # Reshape the combined matrix based on the shape of the original dataframe
+        reshaped_matrix = combined_matrix.reshape(-1, Traject[0].shape[0])
+        # Store the reshaped matrix in the dictionary with state name as the key
+        matrix_dict[state] = reshaped_matrix
+    # Calculate variables from the model parameters
+    # Model parameters from table
+    r_as = 0.55
+    r_si = 0.05
+    r_pi = 0.05
+    tau_c = 5.85
+    tau_l = 4.9
+    tau_d = 7
+    tau_r = 3.52
+    f_as = 0.2
+    f_si = 0.1
+    f_st = 0.8
+    Npop = 4965439
+
+    # Calculate Rt using the formula provided
+    Rt = matrix_dict['B'] * ((f_as - 1) * ((r_si - 1) * f_si * (tau_c - tau_l) + (r_pi - 1) * f_st * (tau_c - tau_l + tau_r)) \
+                             + tau_d * (f_as * (r_as - r_si * f_si - r_pi * f_st + f_si + f_st - 1) \
+                                        + (r_si - 1) * f_si + (r_pi - 1) * f_st + 1)) \
+         * matrix_dict['S'] / Npop
+    # Add Rt to the matrix_dict
+    matrix_dict['Rt'] = Rt
+
+    return matrix_dict
 
 def  plot_smc_covid(matrix,Date, color='dodgerblue', med=False):
     matrix=replace_outliers(matrix)
