@@ -1,3 +1,8 @@
+import numpy as np
+from stochastic_epidemic_model import seir_model_const, seir_model_var, stochastic_model_covid
+from filter_preprocessing import initialization_state_theta, solve_model
+from weight_processing import resampling_style, compute_log_weight
+
 def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, observed_data, num_particles, 
                     resampling_threshold=1, delta=0.99, population_size=6000, 
                     resampling_method='stratified', observation_distribution='poisson', 
@@ -94,6 +99,8 @@ def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, obser
 
         current_particles = np.array([np.array(p['state'] + p['theta']) for p in particles_update])
         particle_weights = np.array([p['weight'] for p in particles_update])
+        if np.max(particle_weights) == -np.inf:
+          particle_weights = -1e2*np.ones(num_particles)
         incremental_log_likelihood = np.mean(np.exp(particle_weights))
         if t < num_timesteps and incremental_log_likelihood > 1e-15:
             marginal_log_likelihood += np.log(incremental_log_likelihood)
