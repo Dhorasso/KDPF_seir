@@ -90,7 +90,7 @@ def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, obser
             if t < num_timesteps:
                 weight = compute_log_weight(current_data_point, model_point, theta, theta_names, observation_distribution)
 
-            return {'state': list(model_point.values), 'theta': list(theta), 'weight': weight}
+            return {'state': list(model_point), 'theta': list(theta), 'weight': weight}
 
         
         # Parrallel computing using all available worker (n_job=-1 user can choose to define the number of workers) 
