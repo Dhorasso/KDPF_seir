@@ -68,7 +68,7 @@ The `initial_state_info` dictionary should contain the initial state variables o
 
  The initial_theta_info dictionary should contain the initial parameters of the model. Each parameter should be defined with the following information:
 
--`parameter name` and `prior distribution`: A list specifying `[lower_bound/shape, upper_bound/scale, mean, std_deviation, distribution_type]`. The distribution can be 'uniform',  'normal', 'lognormal', 'gamma', 'invgamma'.
+- `parameter name` and `prior distribution`: A list specifying `[lower_bound/shape, upper_bound/scale, mean, std_deviation, distribution_type]`. The distribution can be 'uniform',  'normal', 'lognormal', 'gamma', 'invgamma'.
 
 ##  Model outputs 
 - `margLogLike`: Marginal log-likelihood of the observed data given the model.
