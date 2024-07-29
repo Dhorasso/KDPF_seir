@@ -59,7 +59,7 @@ Perform Sequential Monte Carlo (Particle Filter) for state-space models.
 - `observation_distribution`: Distribution of observations ('poisson by default) 
 - `forecast_days`: Number of days to forecast
 - `num_cores`: Number of processor to be used in parallel ( defaut all available -1) 
--`show_progress`: Whether to display a progress bar during computation  (default is TRue)
+- `show_progress`: Whether to display a progress bar during computation  (default is TRue)
 
 #### Initial State Information (`initial_state_info`)
 
