@@ -93,42 +93,46 @@ data = pd.read_csv('covid19_ireland_data.csv')  # Replace with actual data file
 
 # Define initial state information
 state_info = {
-    'S': {'prior': [0, 0, 0, 0, 'fixed']},
-    'E': {'prior': [1, 1, 0, 0, 'uniform']},
-    'Ips': {'prior': [15, 100, 0, 0, 'uniform']},
-    'Ias': {'prior': [0, 0, 0, 0, 'uniform']},
-    'Isi': {'prior': [0, 0, 0, 0, 'uniform']},
-    'Ist': {'prior': [0, 0, 0, 0, 'uniform']},
-    'Ipi': {'prior': [0, 0, 0, 0, 'uniform']},
-    'Isn': {'prior': [0, 0, 0, 0, 'uniform']},
-    'R': {'prior': [0, 0, 0, 0, 'uniform']},
-    'CD': {'prior': [0, 0, 0, 0, 'uniform']},
-    'NI': {'prior': [0, 0, 0, 0, 'uniform']},
-    'B': {'prior': [0.7, 0.8, 0, 0, 'uniform']},
-    'd': {'prior': [0.001, 0.002, 0, 0, 'uniform']}
+    'S': {'prior': [0, 0, 0,0, 'fixed']},  # 'fixed' indicates that it's calculated based on the others
+    'E': {'prior': [0, 0, 0,0, 'uniform']},
+    'I': {'prior': [0,3, 0,0, 'uniform']},
+    'R': {'prior': [0, 0, 0,0, 'uniform']},
+     'NI': {'prior': [0, 0, 0,0, 'uniform']}
 }
 
 # Define initial parameters information
 theta_info = {
-    'nu_beta_2':  {'prior': [80, 0.02, 0, 0, 'invgamma']},
-    'nu_d_2': {'prior': [80, 0.01, 0, 0, 'invgamma']},
-    'phi': {'prior': [30, 0.2, 0, 0, 'invgamma']}
+    'beta': {'prior': [0.1, 0.6,0,0, 'uniform']},
+    'sigma': {'prior': [1/14, 1/2,0,0, 'uniform']},
+    'gamma': {'prior': [1/15, 1/2,0,0, 'uniform']}
 }
 
-# specify the seed for reproductibility
+
+
+# Specify the seed for reproductibility
 np.random.seed(123)
+
+## Generate simulated data
+theta_example = [0.45, 1/3, 1/5]
+InitialState_example = [6000-1, 0, 1, 0, 0]
+state_names = ['S', 'E', 'I', 'R', 'NI']
+t_start_example = 0
+t_end_example = 120
+dt_example = 1
+
+
+np.random.seed(123)
+results_example = solve_seir_const_beta(seir_const_beta, theta_example, InitialState_example, t_start_example, t_end_example, dt_example)
+simulated_data = pd.DataFrame({'time': results_example['time'], 'obs': results_example['NI']})
+
 results_filter = Kernel_Smoothing_Filter(
-    model=stochastic_model_covid, 
-    initial_state_info=state_info, 
-    initial_theta_info=theta_info,  
-    observed_data=data, 
-    num_state_particles=20000, 
-    resampling_threshold=1, 
-    delta=0.99, 
-    population_size=4965439, 
-    resampling_method='stratified', 
-    observation_distribution='normal_approx_negative_binomial',
-    forecast_days=28, 
+    model=seir_model_const, 
+    initial_state_info=state_info , 
+    initial_theta_info=theta_info , 
+    observed_data=simulated_data, 
+    num_particles=10000, 
+    observation_distribution='poisson', 
     show_progress=True
 )
+
 ```
