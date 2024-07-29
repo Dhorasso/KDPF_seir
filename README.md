@@ -114,7 +114,7 @@ np.random.seed(123)
 
 ## Generate simulated data
 theta_example = [0.45, 1/3, 1/5]
-InitialState_example = [6000-1, 0, 1, 0, 0]
+InitialState_example = [5999, 0, 1, 0, 0]
 state_names = ['S', 'E', 'I', 'R', 'NI']
 t_start_example = 0
 t_end_example = 120
