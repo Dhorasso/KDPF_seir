@@ -5,7 +5,7 @@ from weight_processing import resampling_style, compute_log_weight
 def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, observed_data, num_particles, 
                     resampling_threshold=1, delta=0.99, population_size=6000, 
                     resampling_method='stratified', observation_distribution='poisson', 
-                    forecast_days=0, show_progress=True):
+                    forecast_days=0, num_core=-1, show_progress=True):
     """
     Perform Sequential Monte Carlo (Particle Filter) for state-space models.
 
@@ -90,7 +90,7 @@ def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, obser
 
         
         # Parrallel computing using all available worker (n_job=-1 user can choose to define the number of workers) 
-        particles_update = Parallel(n_jobs=-1)(delayed(process_particle)(j) for j in range(num_particles))
+        particles_update = Parallel(n_jobs=num_core)(delayed(process_particle)(j) for j in range(num_particles))
 
         current_particles = np.array([np.array(p['state'] + p['theta']) for p in particles_update])
         particle_weights = np.array([p['weight'] for p in particles_update])
