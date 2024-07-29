@@ -21,6 +21,7 @@ def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, obser
     - resampling_method: Resampling method ('stratified' by default)
     - observation_distribution: Distribution of observation ('poisson' by default)
     - forecast_days: Number of forecasting days (default is 14)
+    - num_core: Number of processor to be used in parallel ( defaut all available -1) 
     - show_progress: Display progress bar (default is True)
 
     OUTPUTS:
