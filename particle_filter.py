@@ -65,16 +65,12 @@ def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, obser
         theta_mean = np.mean(sample_theta, axis=0)
         theta_covariance = np.cov(sample_theta.T)
 
-        # if len(theta_mean) == 1:
-        #     theta_covariance = np.std(sample_theta)
-        # else:
-    
-        #     theta_covariance = np.cov(sample_theta.T)
-
+        # Update parcticles and weights
         def process_particle(j):
             state = current_particles[j][:len(state_names)]
             theta = current_particles[j][len(state_names):]
-
+          
+            # Kernel density ( θ(i_{t} ∼ N (α θ(i)_{t−1} + (1 − α) ̄θ_{t−1}, h**2*Vt−1) )
             if len(theta_mean) > 0 and t < num_timesteps:
                 m = a * theta + (1 - a) * theta_mean
                 if len(theta) > 1:
@@ -98,14 +94,21 @@ def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, obser
 
         current_particles = np.array([np.array(p['state'] + p['theta']) for p in particles_update])
         particle_weights = np.array([p['weight'] for p in particles_update])
-        if np.max(particle_weights) == -np.inf:
-          particle_weights = -1e2*np.ones(num_particles)
-        incremental_log_likelihood = np.mean(np.exp(particle_weights))
-        if t < num_timesteps and incremental_log_likelihood > 1e-15:
-            marginal_log_likelihood += np.log(incremental_log_likelihood)
+      
+        if t < num_timesteps:
+            zt=np.mean(np.exp(particle_weights))
+            if zt <1e-12:
+                zt =1e-12
+            marginal_log_likelihood += np.log(zt)
+            A=np.max(particle_weights)
+            if A<-1e2:
+                particle_weights_mod= np.ones(num_state_particles)
+            else:
+                particle_weights_mod = np.exp(particle_weights - A)
         
-        particle_weights_mod = np.exp(particle_weights - np.max(particle_weights))
         normalized_weights =  particle_weights_mod / np.sum(particle_weights_mod)
+      
+        # Compute effective sample size
         effective_sample_size = 1 / np.sum(normalized_weights ** 2)
 
         # Resampling step
