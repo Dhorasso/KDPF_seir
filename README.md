@@ -57,8 +57,9 @@ Perform Sequential Monte Carlo (Particle Filter) for state-space models.
 - `population_size`: Total population size  
 - `resampling_method`: Method for particle resampling ('stratified' by default)  
 - `observation_distribution`: Distribution of observations ('poisson by default) 
-- `forecast_days`: Number of days to forecast  
- -`show_progress`: Whether to display a progress bar during computation  (default is TRue)
+- `forecast_days`: Number of days to forecast
+- `num_cores`: Number of processor to be used in parallel ( defaut all available -1) 
+-`show_progress`: Whether to display a progress bar during computation  (default is TRue)
 
 #### Initial State Information (`initial_state_info`)
 
@@ -82,8 +83,8 @@ Below is an example of how to use the Particle Filter with the stochastic model 
 # Import necessary modules
 import numpy as np
 import pandas as pd
-from joblib import Parallel, delayed
-from tqdm import tqdm
+from joblib import Parallel, delayed  # For parallel computing
+from tqdm import tqdm                 # For Display the progress
 from stochastic_epidemic_model import seir_model_const, seir_model_var, stochastic_model_covid
 from particle_filter import Kernel_Smoothing_Filter
 from trace_plot import trace_smc, trace_smc_covid, plot_smc, plot_smc_covid
@@ -131,7 +132,8 @@ results_filter = Kernel_Smoothing_Filter(
     initial_theta_info=theta_info , 
     observed_data=simulated_data, 
     num_particles=10000, 
-    observation_distribution='poisson', 
+    observation_distribution='poisson',
+    num_cores =-1 
     show_progress=True
 )
 
