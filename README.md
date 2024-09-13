@@ -212,7 +212,7 @@ results_filter =  Kernel_Smoothing_Filter(
     show_progress=True
 )
 
-
+print("Marginal log_likelihood=", results_filter['margLogLike'])
 
 #####################
 # SAVE YOUR RESULTS #
