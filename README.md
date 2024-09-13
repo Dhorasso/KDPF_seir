@@ -233,6 +233,7 @@ print("Marginal log_likelihood=", results_filter['margLogLike'])
 
 ```python
 # Plot of the states
+from plotnine import*
 
 trajParticles = results_filter['trajState']
 matrix_dict = trace_smc(trajParticles)
@@ -243,8 +244,11 @@ for (state, matrix) in matrix_dict.items():
     p = plot_smc(matrix)
     if state == 'NI': # To plot the data with the filered estimate
         p +=geom_point(aes(x=simulated_data['time'], y=simulated_data['obs']),  fill='salmon', color='darkorange', size=1.5)
-    p += theme(figure_size=(9,4))
-    p += ylab("Daily new cases") 
+    p += theme(figure_size=(5,4))
+    if state == 'NI':
+        p += ylab("Daily new cases") 
+    else:
+        p += ylab(state) 
     p += xlab("Time (days)")
     fig = p.draw()
     print(p) 
