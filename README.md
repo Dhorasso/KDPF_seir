@@ -190,6 +190,9 @@ state_info = {
 }
 
 # Define initial theta information
+# only put parameter with unkown value. If the value of a parameter is know it will
+# be better to include it direcly in the model to reduce uncertainty
+# For this example we will infer all the three parameters
 theta_info = {
     'beta': {'prior': [0.1, 0.9, 0, 0, 'uniform']},
     'sigma': {'prior': [0.1, 0.9, 0, 0, 'uniform']},
