@@ -10,7 +10,7 @@ def seir_model_const(y, theta, theta_names, dt=1):
             E: Exposed
             I: Infected
             R: Recovered
-            NI: New infected  (use to link with the observations)
+            NI: New infected  (used to link with the observations)
     - theta: Set of parameters
     - theta_names: Name of the parameters:
             beta: Transmission rate
@@ -61,7 +61,7 @@ def seir_model_var(y, theta, theta_names, dt=1):
             E: Exposed
             I: Infected
             R: Recovered
-            NI: New infected  (use to link with the observations)
+            NI: New infected  (used to link with the observations)
             B: Time-varying transmission rate
     - theta: Set of parameters
     - theta_names: Name of the parameters:
