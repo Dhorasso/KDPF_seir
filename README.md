@@ -243,7 +243,7 @@ matrix_dict = trace_smc(trajParticles)
 for (state, matrix) in matrix_dict.items():
     p = plot_smc(matrix)
     if state == 'NI': # To plot the data with the filered estimate
-        p +=geom_point(aes(x=simulated_data['time'], y=simulated_data['obs']), fill='gray', color='black', size=2.5)
+        p +=geom_point(aes(x=simulated_data['time'], y=simulated_data['obs']),  fill='salmon', color='darkorange', size=1.5)
     p += theme(figure_size=(9,4))
     p += ylab("Daily new cases") 
     p += xlab("Time (days)")
@@ -260,7 +260,7 @@ matrix_dict = trace_smc(trajParticles)
 # Iterate through each key-value pair in matrix_dict and plot in a subplot
 for i, (state, matrix) in enumerate(matrix_dict.items()):
     p = plot_smc(matrix)
-    p = p + geom_hline(yintercept=true_theta[i], color='orange', linetype='dashed', size=1.2)
+    p = p + geom_hline(yintercept=true_theta[i], color='orange', linetype='dashed', size=2)
     p += theme(figure_size=(4,3))
     p+= ylab(L[i])
     p += xlab("Time (days)")
