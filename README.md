@@ -250,7 +250,7 @@ for (state, matrix) in matrix_dict.items():
     fig = p.draw()
     print(p) 
 ```
-<img src="Fig/inf_ep1.png" alt="Plot showing the results" width="700" />
+<img src="Fig/inf_ep1.png" alt="Plot showing the results" width="600" />
 
 ```python
 # Plot of the parameters
@@ -269,9 +269,9 @@ for i, (state, matrix) in enumerate(matrix_dict.items()):
 
 ```
 <p>
-  <img src="Fig/beta_ep1.png" alt="Plot showing the results" width="300" />
-  <img src="Fig/sig_ep1.png" alt="Plot showing the results" width="300" />
-  <img src="Fig/gam_ep1.png" alt="Plot showing the results" width="300" />
+  <img src="Fig/beta_ep1.png" alt="Plot showing the results" width="200" />
+  <img src="Fig/sig_ep1.png" alt="Plot showing the results" width="200" />
+  <img src="Fig/gam_ep1.png" alt="Plot showing the results" width="200" />
 </p>
 
 ## User Modifications
