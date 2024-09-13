@@ -250,6 +250,7 @@ for (state, matrix) in matrix_dict.items():
     fig = p.draw()
     print(p) 
 ```
+![Plot showing the results](Fig/inf_ep1.png)
 
 ```python
 # Plot of the parameters
