@@ -1,3 +1,5 @@
+# This file contain the main Kernel density particle filter
+
 import numpy as np
 import pandas as pd
 from filter_preprocessing import initialization_state_theta, solve_model
