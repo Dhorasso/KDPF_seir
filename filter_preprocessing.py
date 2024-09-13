@@ -1,4 +1,7 @@
+#  This file contain the code to draw initial particle and solve the SEIR model
+
 import numpy as np
+import pandas as pd
 from scipy.stats import norm, lognorm, truncnorm, gamma, invgamma
 
 def draw_value(lower, upper, mean, std, distribution):
