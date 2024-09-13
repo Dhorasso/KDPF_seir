@@ -11,7 +11,7 @@ def draw_value(lower, upper, mean, std, distribution):
     - mean: Mean for normal and lognormal distributions
     - std: Standard deviation for normal and lognormal distributions
     - distribution: Type of distribution ('uniform', 'uniform_logit', 
-                    'normal', 'lognormal', 'gamma', 'invgamma')
+                    'normal', 'trunorm' 'lognormal', 'gamma', 'invgamma')
 
     Returns:
     - value: Drawn value from the specified distribution
@@ -20,7 +20,8 @@ def draw_value(lower, upper, mean, std, distribution):
     if distribution == 'uniform':
         return np.random.uniform(lower, upper)
     elif distribution == 'uniform_logit':
-        return (np.random.uniform(lower, upper) - lower ) / (upper - lower)
+        x=np.random.uniform(lower, upper)
+        return x/(1-x)
     elif distribution == 'normal':
         return  np.random.normal(mean,std) 
     elif distribution == 'lognormal':
@@ -29,8 +30,13 @@ def draw_value(lower, upper, mean, std, distribution):
         return gamma.rvs(lower,upper)
     elif distribution == 'invgamma':
         return invgamma.rvs(lower,upper)
+    elif distribution == 'truncnorm':
+        # Calculate the a and b values for truncnorm
+        a, b = (lower - mean) / std, (upper - mean) / std
+        return truncnorm.rvs(a, b, loc=mean, scale=std)
     else:
         raise ValueError("Invalid distribution")
+        
 
 def initialization_state_theta(state_info, theta_info, num_particles, population_size=1000):
     """
