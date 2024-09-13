@@ -18,7 +18,10 @@ setup(
         'scipy',
         'matplotlib',
         'joblib',
-        'tqdm'
+        'tqdm',
+        'pickle',
+        'plotnine'
+        
         # add any other dependencies
     ],
     classifiers=[
