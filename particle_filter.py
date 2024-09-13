@@ -105,7 +105,7 @@ def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, obser
             zt = max(np.mean(np.exp(particle_weights)), 1e-12)
             marginal_log_likelihood += np.log(zt)
             A = np.max(particle_weights)
-            particle_weights_mod = np.ones(num_state_particles) if A < -1e2 else np.exp(particle_weights - A)
+            particle_weights_mod = np.ones(num_particles) if A < -1e2 else np.exp(particle_weights - A)
 
         
         normalized_weights =  particle_weights_mod / np.sum(particle_weights_mod)
@@ -135,5 +135,10 @@ def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, obser
     if show_progress:
         progress_bar.close()
 
-    return {'margLogLike': marginal_log_likelihood, 'trajState': traj_state, 'trajtheta': traj_theta, 'ESS': effective_sample_size, 'weights':  particle_weights}
+    return {'margLogLike': marginal_log_likelihood, 
+            'trajState': traj_state, 
+            'trajtheta': traj_theta, 
+            'ESS': effective_sample_size,
+            'weights':  particle_weights
+           }
     
