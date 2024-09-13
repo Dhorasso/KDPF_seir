@@ -149,6 +149,28 @@ def seir_model_const(y, theta, theta_names, dt=1):
     return y_next
 ```
 
+##### Generate simulated data or use your actual data
+
+```python
+# Important note: column of observe data nust be name 'obs' if the user want to change it mus also change it in 
+
+# Example data
+ # data = pd.read_csv('covid19_ireland_data.csv')  # Replace with your actual data file
+
+# or generate synthetic data
+theta_example = [0.45, 1/3, 1/5]
+InitialState_example = [5999, 0, 1, 0, 0]
+state_names = ['S', 'E', 'I', 'R', 'NI']
+t_start_example = 0
+t_end_example = 120
+dt_example = 1
+
+# Specify the seed for reproductibility
+np.random.seed(123)
+results_example = solve_seir_const_beta(seir_const_beta, theta_example, InitialState_example, t_start_example, t_end_example, dt_example)
+simulated_data = pd.DataFrame({'time': results_example['time'], 'obs': results_example['NI']})
+```
+
 ##### Define  your prior setting and run 
 
 ```python
@@ -171,25 +193,6 @@ theta_info = {
 
 
 
-# Specify the seed for reproductibility
-np.random.seed(123)
-
-## Generate simulated data or use your actual data
-# Example data
- # data = pd.read_csv('covid19_ireland_data.csv')  # Replace with your actual data file
-
-theta_example = [0.45, 1/3, 1/5]
-InitialState_example = [5999, 0, 1, 0, 0]
-state_names = ['S', 'E', 'I', 'R', 'NI']
-t_start_example = 0
-t_end_example = 120
-dt_example = 1
-
-
-np.random.seed(123)
-results_example = solve_seir_const_beta(seir_const_beta, theta_example, InitialState_example, t_start_example, t_end_example, dt_example)
-simulated_data = pd.DataFrame({'time': results_example['time'], 'obs': results_example['NI']})
-
 results_filter = Kernel_Smoothing_Filter(
     model=seir_model_const, 
     initial_state_info=state_info , 
@@ -201,4 +204,23 @@ results_filter = Kernel_Smoothing_Filter(
     show_progress=True
 )
 
+```
+
+##### Plot your results
+
+```python
+trajParticles = result['trajState']
+matrix_dict = trace_smc(trajParticles)
+num_states = len(matrix_dict)
+
+# Iterate through each key-value pair in matrix_dict and plot in a subplot
+for (state, matrix) in matrix_dict.items():
+    p = plot_smc(matrix)
+    if state == 'NI': # To plot the data with the filered estimate
+        p +=geom_point(aes(x=simulated_data['time'], y=simulated_data['obs']), fill='gray', color='black', size=2.5)
+    p += theme(figure_size=(9,4))
+    p += ylab("Daily new cases") 
+    p += xlab("Time (days)")
+    fig = p.draw()
+    print(p) 
 ```
