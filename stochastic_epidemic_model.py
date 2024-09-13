@@ -10,7 +10,7 @@ def seir_model_const(y, theta, theta_names, dt=1):
             E: Exposed
             I: Infected
             R: Recovered
-            NI: New infected
+            NI: New infected  (use to link with the observations)
     - theta: Set of parameters
     - theta_names: Name of the parameters:
             beta: Transmission rate
@@ -61,7 +61,7 @@ def seir_model_var(y, theta, theta_names, dt=1):
             E: Exposed
             I: Infected
             R: Recovered
-            NI: New infected
+            NI: New infected  (use to link with the observations)
             B: Time-varying transmission rate
     - theta: Set of parameters
     - theta_names: Name of the parameters:
@@ -113,8 +113,9 @@ def stochastic_model_covid(y, theta, theta_names, dt=1):
 
     Parameters:
     - y: Vector of compartments [S, E, Ips, Ias, Isi, Ist, Ipi, Isn, R, D, NI, B, d]
+     (We ue D and NI variables to link with the observations)
     - parameters: Set of parameters [vb_2, v_d]
-
+     
     Returns:
     - y_next: Updated vector of compartments [S, E, Ips, Ias, Isi, Ist, Ipi, Isn, R, D, NI, B, d]
     """
