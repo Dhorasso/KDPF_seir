@@ -137,6 +137,7 @@ def compute_log_weight(observed_data_point, model_data_point, theta, theta_names
         log_likelihood = poisson.logpmf(y, mu= model_est_case)
 
     elif distribution_type == 'normal':
+        epsi = 1e-4
         sigma_normal=param['phi']
         log_likelihood = norm.logpdf(np.log(epsi + y), 
                                      loc=np.log( model_est_case), 
@@ -144,19 +145,18 @@ def compute_log_weight(observed_data_point, model_data_point, theta, theta_names
 
     elif distribution_type == 'normal_approx_negative_binomial':
         y_death=observed_data_point['Death']
-        model_est_death =model_data_point['CD']
+        model_est_death = model_data_point['CD']
         overdisperssion = param['phi']
-        variance =model_est_case * (1 + overdisperssion * model_est_case)
+        variance = model_est_case * (1 + overdisperssion * model_est_case)
         if variance < 1:
-            variance=1
+            variance = 1
         
         log_likelihood = norm.logpdf(y, loc=model_est_case, scale=np.sqrt(variance))+poisson.logpmf(y_death, mu= model_est_death)
 
     elif distribution_type == 'negative_binomial':
         overdisperssion = param['phi']
-        variance =model_est_case * (1 + overdisperssion * model_est_case)
-        p = model_est_case / variance
-        n = model_est_case**2 / (variance - model_est_case)
+        p =1/ (1 + overdisperssion * model_est_case)
+        n = 1 / overdisperssion
         log_likelihood = nbinom.logpmf(y, n, p)
 
     else:
