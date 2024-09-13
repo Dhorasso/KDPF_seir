@@ -190,6 +190,7 @@ state_info = {
 }
 
 # Define initial parameters information
+# Note that the KDPF work well with low dimentional parameters set
 theta_info = {
     'beta': {'prior': [0.1, 0.6,0,0, 'uniform']},
     'sigma': {'prior': [1/14, 1/2,0,0, 'uniform']},
