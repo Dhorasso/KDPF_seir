@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 from plotnine import*
 import numpy as np
+import pandas as pd
 def replace_outliers(matrix):
     # Calculate the IQR for each column
     q1 = np.percentile(matrix, 25, axis=0)
