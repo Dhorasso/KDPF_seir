@@ -89,7 +89,7 @@ from particle_filter import Kernel_Smoothing_Filter
 from trace_plot import trace_smc, trace_smc_covid, plot_smc, plot_smc_covid
 
 # Example data
-data = pd.read_csv('covid19_ireland_data.csv')  # Replace with actual data file
+data = pd.read_csv('covid19_ireland_data.csv')  # Replace with your actual data file 
 
 # Define initial state information
 state_info = {
