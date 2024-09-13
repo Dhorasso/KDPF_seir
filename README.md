@@ -278,6 +278,23 @@ Users can modify the SEIR model as described above, but they can also modify the
 # or given a fixed value by the user.
 
 def compute_log_weight(observed_data_point, model_data_point, theta, theta_names, distribution_type):
+    """
+
+    Compute the log_likelihood of observing a single data point given the model's prediction.
+    ***IMPORTANT*** user may need to change the column name of observed new case to 'obs'
+    the computation of the weights can be modify depending on all the data sources aviable 
+    Parameters:
+    - observed_data_point: Observed number of infected individuals
+    - model_data_point: Predicted number of infected individuals from the model
+    - theta_params: Parameters of the model
+    - theta_names: Names of the theta parameters
+    - distribution_type: Type of distribution ('poisson' by default, also supports 'normal', 
+                         'normal_approx_negative_binomial', or 'negative_binomial')
+
+    Returns:
+    - log_likelihood: log_likelihood of the observation
+    """
+
     param = dict(zip(theta_names, np.exp(theta)))
     y = observed_data_point['obs']
     model_est_case = model_data_point['NI']
