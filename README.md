@@ -89,7 +89,60 @@ from particle_filter import Kernel_Smoothing_Filter
 from trace_plot import trace_smc, trace_smc_covid, plot_smc, plot_smc_covid
 
 # Example data
-data = pd.read_csv('covid19_ireland_data.csv')  # Replace with your actual data file 
+data = pd.read_csv('covid19_ireland_data.csv')  # Replace with your actual data file
+
+# Define your SEIR Or extended-SEIR model
+# See stochastic_epidemic_model.py file to see you shoud define your mode
+# Here is a simple example with constant transmission rate 
+
+def seir_model_const(y, theta, theta_names, dt=1):
+    """
+    Discrete-time stochastic SEIR model.
+
+    Parameters:
+    - y: Vector of variables [S, E, I, R, NI]
+            S: susceptible
+            E: Exposed
+            I: Infected
+            R: Recovered
+            NI: New infected
+    - theta: Set of parameters
+    - theta_names: Name of the parameters:
+            beta: Transmission rate
+            sigma: Latency rate
+            gamma: Recovery rate
+
+    Returns:
+    - y_next: Updated vector of variables [S, E, I, R]
+    """
+
+    # Unpack variables
+    S, E, I, R, NI= y
+    N = S + E + I + R
+
+    # Unpack parameters
+    param= dict(zip(theta_names,theta))
+
+    # Binomial distributions for transitions
+    P_SE = 1 - np.exp(-param['beta'] * I / N * dt)  # Probability of transition from S to E
+    P_EI = 1 - np.exp(-param['sigma'] * dt)      # Probability of transition from E to I
+    P_IR = 1 - np.exp(-param['gamma'] * dt)      # Probability of transition from I to R
+
+
+    # Binomial distributions for transitions
+    B_SE = np.random.binomial(S, P_SE)
+    B_EI = np.random.binomial(E, P_EI)
+    B_IR = np.random.binomial(I, P_IR)
+
+    # Update the compartments
+    S += -B_SE
+    E += B_SE - B_EI
+    I += B_EI - B_IR
+    R += B_IR
+    NI= B_EI
+
+    y_next = [max(0, compartment) for compartment in [S, E, I, R,  NI]] # Ensure non-negative elements
+    return y_next
 
 # Define initial state information
 state_info = {
