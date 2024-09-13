@@ -178,13 +178,14 @@ simulated_data = pd.DataFrame({'time': results_example['time'], 'obs': results_e
 ```python
 
 # Define initial state information
-
+# The user can change the state name except for 'NI'If the user want to change it ,
+#he mus also change a function  compute_log_weight in the weight_processing.py
 state_info = {
     'S': {'prior': [N_pop-3, N_pop, 0,0, 'uniform']},  
     'E': {'prior': [0, 0, 0,0, 'uniform']},
     'I': {'prior': [0,3, 0,0, 'uniform']},
     'R': {'prior': [0, 0, 0,0, 'uniform']},
-     'NI': {'prior': [0, 0, 0,0, 'uniform']}
+     'NI': {'prior': [0, 0, 0,0, 'uniform']} 
 }
 
 # Define initial parameters information
@@ -235,7 +236,7 @@ for (state, matrix) in matrix_dict.items():
 trajParticles = results_filter['trajtheta']
 matrix_dict = trace_smc(trajParticles)
 
-
+# Iterate through each key-value pair in matrix_dict and plot in a subplot
 for i, (state, matrix) in enumerate(matrix_dict.items()):
     p = plot_smc(matrix)
     p = p + geom_hline(yintercept=true_theta[i], color='orange', linetype='dashed', size=1.2)
