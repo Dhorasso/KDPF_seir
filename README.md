@@ -194,25 +194,21 @@ state_info = {
 # be better to include it direcly in the model to reduce uncertainty
 # For this example we will infer all the three parameters
 theta_info = {
-    'beta': {'prior': [0.1, 0.9, 0, 0, 'uniform']},
-    'sigma': {'prior': [0.1, 0.9, 0, 0, 'uniform']},
-    'gamma': {'prior': [0.1, 0.9, 0, 0, 'uniform']}
+    'beta': {'prior': [0.1, 0.6,0,0, 'uniform']},
+    'sigma': {'prior': [1/14, 1/2,0,0, 'uniform']},
+    'gamma': {'prior': [1/15, 1/2,0,0, 'uniform']},
 }
 
 # Run Particle Filter
-filter_results = Kernel_Smoothing_Filter(
-    model=seir_model_const,
-    initial_state_info=state_info,
-    initial_theta_info=theta_info,
+results_filter =  Kernel_Smoothing_Filter(
+    model=seir_model_const, 
+    initial_state_info=state_info , 
+    initial_theta_info=theta_info , 
     observed_data=simulated_data,
-    num_particles=500,
-    resampling_threshold=0.5,
-    delta=0.1,
     population_size=N_pop,
+    num_particles=10000,
     resampling_method='stratified',
-    observation_distribution='poisson',
-    forecast_days=30,
-    num_cores=-1,
+    observation_distribution='poisson', 
     show_progress=True
 )
 
