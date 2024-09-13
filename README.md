@@ -34,8 +34,7 @@ To install and set up the environment for running this model, follow these steps
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/Dhorasso/Stochastic-SEIR-model-with-SMC.git
-    cd covid19-stochastic-model-ireland
+    git clone https://github.com/Dhorasso/stoc_SEIR_SMC.git
     ```
 2. Install the required dependencies:
     ```bash
