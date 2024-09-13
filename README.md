@@ -250,7 +250,7 @@ for (state, matrix) in matrix_dict.items():
     fig = p.draw()
     print(p) 
 ```
-![Plot showing the results](Fig/inf_ep1.png)
+<img src="Fig/inf_ep1.png" alt="Plot showing the results" width="700" />
 
 ```python
 # Plot of the parameters
@@ -268,6 +268,11 @@ for i, (state, matrix) in enumerate(matrix_dict.items()):
     print(p)
 
 ```
+<p>
+  <img src="Fig/beta_ep1.png" alt="Plot showing the results" width="300" />
+  <img src="Fig/sig_ep1.png" alt="Plot showing the results" width="300" />
+  <img src="Fig/gam_ep1.png" alt="Plot showing the results" width="300" />
+</p>
 
 ## User Modifications
 Users can modify the SEIR model as described above, but they can also modify the likelihood function. This involves changing the `compute_log_weight` function in the `weight_processing.py` file.
