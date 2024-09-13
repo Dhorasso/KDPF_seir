@@ -1,4 +1,4 @@
-
+# This file contain the code to extract and plot the result from the Kerrnel_Smoothing_Filter
 
 import matplotlib.pyplot as plt
 from plotnine import*
