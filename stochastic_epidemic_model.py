@@ -1,3 +1,8 @@
+# This file contain the code for a SEIR modelto track epidemic with
+# constant transmissio rate,
+# time-varying transmission rate 
+# and SEIR model for COVID-19 data of Ireland 
+
 import numpy as np
 
 def seir_model_const(y, theta, theta_names, dt=1):
