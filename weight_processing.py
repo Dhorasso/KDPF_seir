@@ -1,3 +1,6 @@
+# This file contain the code for resamppling and computation of the log weight
+
+
 import numpy as np
 from scipy.stats import poisson, norm, nbinom
 import warnings
