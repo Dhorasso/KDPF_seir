@@ -78,8 +78,8 @@ The `initial_state_info` dictionary should contain the initial state variables o
 ## Example Usage
 Below is an example of how to use the Particle Filter with the stochastic model for the COVID-19 Case in Ireland:
 
+#####  Import necessary modules
 ```python
-# Import necessary modules
 import numpy as np
 import pandas as pd
 from joblib import Parallel, delayed  # For parallel computing
@@ -88,12 +88,15 @@ from stochastic_epidemic_model import seir_model_const, seir_model_var, stochast
 from particle_filter import Kernel_Smoothing_Filter
 from trace_plot import trace_smc, trace_smc_covid, plot_smc, plot_smc_covid
 
-# Example data
-data = pd.read_csv('covid19_ireland_data.csv')  # Replace with your actual data file
+```
 
+##### Define  your model
+```python
 # Define your SEIR Or extended-SEIR model
 # See stochastic_epidemic_model.py file to see you shoud define your mode
-# Here is a simple example with constant transmission rate 
+# Here is a simple example with constant transmission rate
+# For disease with multiples wave is recommend to use a time-varying transmission rate
+# ( see seir_model_var for more detail)
 
 def seir_model_const(y, theta, theta_names, dt=1):
     """
@@ -105,7 +108,7 @@ def seir_model_const(y, theta, theta_names, dt=1):
             E: Exposed
             I: Infected
             R: Recovered
-            NI: New infected
+            NI: New infected (used to link with observations)
     - theta: Set of parameters
     - theta_names: Name of the parameters:
             beta: Transmission rate
@@ -142,7 +145,13 @@ def seir_model_const(y, theta, theta_names, dt=1):
     NI= B_EI
 
     y_next = [max(0, compartment) for compartment in [S, E, I, R,  NI]] # Ensure non-negative elements
+
     return y_next
+```
+
+##### Define  your prior setting and run 
+
+```python
 
 # Define initial state information
 state_info = {
@@ -165,7 +174,10 @@ theta_info = {
 # Specify the seed for reproductibility
 np.random.seed(123)
 
-## Generate simulated data
+## Generate simulated data or use your actual data
+# Example data
+ # data = pd.read_csv('covid19_ireland_data.csv')  # Replace with your actual data file
+
 theta_example = [0.45, 1/3, 1/5]
 InitialState_example = [5999, 0, 1, 0, 0]
 state_names = ['S', 'E', 'I', 'R', 'NI']
