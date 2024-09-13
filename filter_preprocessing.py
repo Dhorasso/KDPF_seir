@@ -60,7 +60,7 @@ def initialization_state_theta(state_info, theta_info, num_particles, population
 
     for _ in range(num_particles):
         # Initialize state values, ensuring 'S' compartment accounts for the total population size
-        init_state_values = [draw_value(*state_info[state]['prior']) for state in state_names[1:]]
+        init_state_values = [draw_value(*state_info[state]['prior']) for state in state_names]
         # Initialize parameter values
         param_values = [np.log(draw_value(*theta_info[param]['prior'])) for param in theta_names]
 
