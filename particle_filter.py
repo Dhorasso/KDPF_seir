@@ -97,15 +97,11 @@ def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, obser
         particle_weights = np.array([p['weight'] for p in particles_update])
       
         if t < num_timesteps:
-            zt=np.mean(np.exp(particle_weights))
-            if zt <1e-12:
-                zt =1e-12
+            zt = max(np.mean(np.exp(particle_weights)), 1e-12)
             marginal_log_likelihood += np.log(zt)
-            A=np.max(particle_weights)
-            if A<-1e2:
-                particle_weights_mod= np.ones(num_state_particles)
-            else:
-                particle_weights_mod = np.exp(particle_weights - A)
+            A = np.max(particle_weights)
+            particle_weights_mod = np.ones(num_state_particles) if A < -1e2 else np.exp(particle_weights - A)
+
         
         normalized_weights =  particle_weights_mod / np.sum(particle_weights_mod)
       
