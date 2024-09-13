@@ -8,9 +8,10 @@ This repository contains the implementation of a stochastic model to simulate an
 - [Introduction](#introduction)
 - [Model Description](#model-description)
 - [Installation](#installation)
-- [Model Parameters](#model-parameters)
+- [Model Inputs](#model-inputs)
 - [Model Outputs](#model-outputs)
 - [Example Usage](#example-usage)
+- [User Modifications](#user-modifications)
 
 ## Introduction
 The COVID-19 Stochastic Model aims to provide a detailed simulation of the virus's spread within the population of Ireland. By incorporating real data and using a particle filter, the model can produce accurate state estimates and time-varying reproduction number
@@ -42,9 +43,9 @@ To install and set up the environment for running this model, follow these steps
     ```
 
 
-##  Kernel_Smoothing_Filter Inputs
+##  Model Inputs
 
-Perform Sequential Monte Carlo (Particle Filter) for state-space models.
+The  `Kernel_Smoothing_Filter` function thake as inputs:
 
 - `model`: Model function (e.g., SIR, SEIR, extended-SEIR stochastic model)
 - `initial_state_info`: Information about the initial state of the system  (dictionary)
@@ -70,7 +71,7 @@ The `initial_state_info` dictionary should contain the initial state variables o
 
 - `parameter name` and `prior distribution`: A list specifying `[lower_bound/shape, upper_bound/scale, mean, std_deviation, distribution_type]`. The distribution can be 'uniform',  'normal', 'lognormal', 'gamma', 'invgamma'.
 
-##  Model outputs 
+##  Model Outputs 
 - `margLogLike`: Marginal log-likelihood of the observed data given the model.
 - `trajState`: Trajectories of the state variables over time.
 - `trajtheta`: Trajectories of the model parameters over time.
@@ -208,6 +209,21 @@ results_filter = Kernel_Smoothing_Filter(
     show_progress=True
 )
 
+
+
+#####################
+# SAVE YOUR RESULTS #
+#####################
+# # open a new cell and copy this
+# import pickle
+
+# # Assuming results_filter is your resultsd 
+# with open("results_filte.pickle", "wb") as file:
+#     pickle.dump(results_filte, file)
+
+# If you want to open it letter
+# with open("results_filter.pickle", "rb") as file:
+#    results_filter= pickle.load(file)
 ```
 
 ##### Plot your results
@@ -247,3 +263,5 @@ for i, (state, matrix) in enumerate(matrix_dict.items()):
     print(p)
 
 ```
+
+## User Modifications
