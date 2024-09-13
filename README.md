@@ -237,7 +237,7 @@ filter_results = Kernel_Smoothing_Filter(
 
 trajParticles = results_filter['trajState']
 matrix_dict = trace_smc(trajParticles)
-num_states = len(matrix_dict)
+
 
 # Iterate through each key-value pair in matrix_dict and plot in a subplot
 for (state, matrix) in matrix_dict.items():
