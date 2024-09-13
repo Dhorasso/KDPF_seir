@@ -5,5 +5,4 @@ scipy
 matplotlib
 joblib
 tqdm
-pickle
 plotnine
