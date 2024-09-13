@@ -64,12 +64,13 @@ The  `Kernel_Smoothing_Filter` function thake as inputs:
 #### Initial State Information (`initial_state_info`)
 
 The `initial_state_info` dictionary should contain the initial state variables of the model. Each state variable should be defined with the following information:
-- `state name `and  `prior distribution`: A list specifying `[lower_bound, upper_bound, mean, std_deviation, distribution_type]`. The distribution type can be 'fixed' if the value is known or 'uniform' if it follows a uniform distribution.
+- `state name `and  `prior distribution`: A list specifying `[lower_bound, upper_bound, mean, std_deviation, distribution_type]`.
+
 #### Initial Parameters Information (`initial_theta_info`)
 
  The initial_theta_info dictionary should contain the initial parameters of the model. Each parameter should be defined with the following information:
 
-- `parameter name` and `prior distribution`: A list specifying `[lower_bound/shape, upper_bound/scale, mean, std_deviation, distribution_type]`. The distribution can be 'uniform', 'normal', 'trunorm' 'lognormal', 'gamma', 'invgamma'. The lower  and upper values only work for 'uniform' and  'trunorm'
+- `parameter name` and `prior distribution`: A list specifying `[lower_bound/shape, upper_bound/scale, mean, std_deviation, distribution_type]`.The distribution can be 'uniform', 'normal', 'trunorm', 'lognormal', 'gamma', or 'invgamma'. The lower and upper values only work for 'uniform' and 'trunorm'.
 
 ##  Model Outputs 
 - `margLogLike`: Marginal log-likelihood of the observed data given the model.
@@ -77,7 +78,6 @@ The `initial_state_info` dictionary should contain the initial state variables o
 - `trajtheta`: Trajectories of the model parameters over time.
 
 ## Example Usage
-Below is an example of how to use the Particle Filter with the stochastic model for the COVID-19 Case in Ireland:
 
 #####  Import necessary modules
 ```python
@@ -153,11 +153,11 @@ def seir_model_const(y, theta, theta_names, dt=1):
 ##### Generate simulated data or use your actual data
 
 ```python
-# Important note: column of observe data nust be name 'obs' if the user want to change it mus also change it
-# may a function  compute_log_weight in the weight_processing.py
+# Important note: column of observed data must be named 'obs'. If the user wants to change it,
+# they must also update the function compute_log_weight in the weight_processing.py file.
 
 # Example data
- # data = pd.read_csv('covid19_ireland_data.csv')  # Replace with your actual data file
+# data = pd.read_csv('covid19_ireland_data.csv')  # Replace with your actual data file
 
 # or generate synthetic data
 true_theta = [0.45, 1/3, 1/5]
@@ -179,34 +179,37 @@ simulated_data = pd.DataFrame({'time': results_example['time'], 'obs': results_e
 ```python
 
 # Define initial state information
-# The user can change the state name except for 'NI'If the user want to change it ,
-#he mus also change a function  compute_log_weight in the weight_processing.py
+# The user can change the state names except for 'NI'. If the user wants to change it,
+# they must also update the function compute_log_weight in the weight_processing.py file.
 state_info = {
-    'S': {'prior': [N_pop-3, N_pop, 0,0, 'uniform']},  
-    'E': {'prior': [0, 0, 0,0, 'uniform']},
-    'I': {'prior': [0,3, 0,0, 'uniform']},
-    'R': {'prior': [0, 0, 0,0, 'uniform']},
-     'NI': {'prior': [0, 0, 0,0, 'uniform']} 
+    'S': {'prior': [N_pop - 3, N_pop, 0, 0, 'uniform']},  
+    'E': {'prior': [0, 0, 0, 0, 'uniform']},
+    'I': {'prior': [0, 3, 0, 0, 'uniform']},
+    'R': {'prior': [0, 0, 0, 0, 'uniform']},
+    'NI': {'prior': [0, 0, 0, 0, 'uniform']}
 }
 
-# Define initial parameters information
-# Note that the KDPF work well with low dimentional parameters set
+# Define initial theta information
 theta_info = {
-    'beta': {'prior': [0.1, 0.6,0,0, 'uniform']},
-    'sigma': {'prior': [1/14, 1/2,0,0, 'uniform']},
-    'gamma': {'prior': [1/15, 1/2,0,0, 'uniform']}
+    'beta': {'prior': [0.1, 0.9, 0, 0, 'uniform']},
+    'sigma': {'prior': [0.1, 0.9, 0, 0, 'uniform']},
+    'gamma': {'prior': [0.1, 0.9, 0, 0, 'uniform']}
 }
 
-
-
-results_filter = Kernel_Smoothing_Filter(
-    model=seir_model_const, 
-    initial_state_info=state_info , 
-    initial_theta_info=theta_info , 
-    observed_data=simulated_data, 
-    num_particles=10000, 
+# Run Particle Filter
+filter_results = Kernel_Smoothing_Filter(
+    model=seir_model_const,
+    initial_state_info=state_info,
+    initial_theta_info=theta_info,
+    observed_data=simulated_data,
+    num_particles=500,
+    resampling_threshold=0.5,
+    delta=0.1,
+    population_size=N_pop,
+    resampling_method='stratified',
     observation_distribution='poisson',
-    num_cores =-1 
+    forecast_days=30,
+    num_cores=-1,
     show_progress=True
 )
 
@@ -266,4 +269,37 @@ for i, (state, matrix) in enumerate(matrix_dict.items()):
 ```
 
 ## User Modifications
-User can modify the SEIR model he want to use as describes above but it can also modify the likelihood function
+Users can modify the SEIR model as described above, but they can also modify the likelihood function. This involves changing the `compute_log_weight` function in the `weight_processing.py` file.
+
+```python
+
+# Simple example on how to modify it for Poisson and Negative Binomial observation distributions
+# If a parameter appears in the compute_log_weight, it must be introduced in the theta_info set
+# or given a fixed value by the user.
+
+def compute_log_weight(observed_data_point, model_data_point, theta, theta_names, distribution_type):
+    param = dict(zip(theta_names, np.exp(theta)))
+    y = observed_data_point['obs']
+    model_est_case = model_data_point['NI']
+
+    if distribution_type == 'poisson':
+        log_likelihood = poisson.logpmf(y, mu=model_est_case)
+
+    elif distribution_type == 'negative_binomial':
+        # The overdispersion parameter can be inferred using the Kernel_Smoothing_Filter by adding it
+        # to the theta_info parameter or can be set manually
+        overdispersion = param['phi']
+        p = 1 / (1 + overdispersion * model_est_case)
+        n = 1 / overdispersion
+        log_likelihood = nbinom.logpmf(y, n, p)
+
+    else:
+        raise ValueError("Invalid distribution type")
+
+    if np.isfinite(log_likelihood):
+        return log_likelihood
+    else:
+        return -np.inf
+
+
+```
