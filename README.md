@@ -152,22 +152,24 @@ def seir_model_const(y, theta, theta_names, dt=1):
 ##### Generate simulated data or use your actual data
 
 ```python
-# Important note: column of observe data nust be name 'obs' if the user want to change it mus also change it in 
+# Important note: column of observe data nust be name 'obs' if the user want to change it mus also change it
+# may a function  compute_log_weight in the weight_processing.py
 
 # Example data
  # data = pd.read_csv('covid19_ireland_data.csv')  # Replace with your actual data file
 
 # or generate synthetic data
-theta_example = [0.45, 1/3, 1/5]
-InitialState_example = [5999, 0, 1, 0, 0]
+true_theta = [0.45, 1/3, 1/5]
+N_pop=6000
+InitialState_example = [N_pop-1, 0, 1, 0, 0]
 state_names = ['S', 'E', 'I', 'R', 'NI']
-t_start_example = 0
-t_end_example = 120
+t_start = 0
+t_end = 120
 dt_example = 1
 
 # Specify the seed for reproductibility
 np.random.seed(123)
-results_example = solve_seir_const_beta(seir_const_beta, theta_example, InitialState_example, t_start_example, t_end_example, dt_example)
+results_example = solve_seir_const_beta(seir_const_beta, true_theta, InitialState_example, t_start, t_end, dt_example)
 simulated_data = pd.DataFrame({'time': results_example['time'], 'obs': results_example['NI']})
 ```
 
@@ -176,8 +178,9 @@ simulated_data = pd.DataFrame({'time': results_example['time'], 'obs': results_e
 ```python
 
 # Define initial state information
+
 state_info = {
-    'S': {'prior': [0, 0, 0,0, 'fixed']},  # 'fixed' indicates that it's calculated based on the others
+    'S': {'prior': [N_pop-3, N_pop, 0,0, 'uniform']},  
     'E': {'prior': [0, 0, 0,0, 'uniform']},
     'I': {'prior': [0,3, 0,0, 'uniform']},
     'R': {'prior': [0, 0, 0,0, 'uniform']},
@@ -209,7 +212,9 @@ results_filter = Kernel_Smoothing_Filter(
 ##### Plot your results
 
 ```python
-trajParticles = result['trajState']
+# Plot of the states
+
+trajParticles = results_filter['trajState']
 matrix_dict = trace_smc(trajParticles)
 num_states = len(matrix_dict)
 
@@ -223,4 +228,21 @@ for (state, matrix) in matrix_dict.items():
     p += xlab("Time (days)")
     fig = p.draw()
     print(p) 
+```
+
+```python
+# Plot of the parameters
+trajParticles = results_filter['trajtheta']
+matrix_dict = trace_smc(trajParticles)
+
+
+for i, (state, matrix) in enumerate(matrix_dict.items()):
+    p = plot_smc(matrix)
+    p = p + geom_hline(yintercept=true_theta[i], color='orange', linetype='dashed', size=1.2)
+    p += theme(figure_size=(4,3))
+    p+= ylab(L[i])
+    p += xlab("Time (days)")
+
+    print(p)
+
 ```
