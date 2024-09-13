@@ -144,6 +144,7 @@ def compute_log_weight(observed_data_point, model_data_point, theta, theta_names
                                      scale=sigma_normal)
 
     elif distribution_type == 'normal_approx_negative_binomial':
+        # This distribution was use in our application of COVID-19 data set in ireland
         y_death=observed_data_point['Death']
         model_est_death = model_data_point['CD']
         overdisperssion = param['phi']
