@@ -19,7 +19,6 @@ setup(
         'matplotlib',
         'joblib',
         'tqdm',
-        'pickle',
         'plotnine'
         
         # add any other dependencies
