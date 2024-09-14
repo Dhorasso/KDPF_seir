@@ -125,7 +125,7 @@ def  plot_smc_covid(matrix,Date, color='dodgerblue', CI_95=True, CI_50=True):
     # Create a ggplot object
     p = ggplot() 
     # Add a ribbon layer for the 50% credible interval
-   if CI_95:
+    if CI_95:
         p += geom_ribbon(aes(x=time_steps, ymin=credible_interval_50[0], ymax=credible_interval_50[1]), fill=color, alpha=1)
         # Add a ribbon layer for the 95% credible interval
     if CI_50:
