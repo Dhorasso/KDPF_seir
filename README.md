@@ -83,6 +83,8 @@ The `initial_state_info` dictionary should contain the initial state variables o
 ```python
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+from plotnine import*
 from joblib import Parallel, delayed  # For parallel computing
 from tqdm import tqdm                 # For Display the progress
 from simulated_data import*           # For Generate synthetic data
@@ -163,11 +165,11 @@ def seir_model_const(y, theta, theta_names, dt=1):
 # or generate synthetic data
 true_theta = [0.45, 1/3, 1/5]
 N_pop=6000
-InitialState_example = [N_pop-1, 0, 1, 0, 0]
-state_names = ['S', 'E', 'I', 'R', 'NI']
+InitialState_example = [N_pop-1, 0, 1, 0, 0] #  ['S', 'E', 'I', 'R', 'NI']
+
 t_start = 0
 t_end = 120
-dt_example = 1
+dt_example = 1 time step 
 
 # Specify the seed for reproductibility
 np.random.seed(123)
@@ -234,7 +236,6 @@ print("Marginal log_likelihood=", results_filter['margLogLike'])
 
 ```python
 # Plot of the states
-from plotnine import*
 
 trajParticles = results_filter['trajState']
 matrix_dict = trace_smc(trajParticles)
