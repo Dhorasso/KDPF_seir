@@ -58,6 +58,7 @@ The  `Kernel_Smoothing_Filter` function thake as inputs:
 - `resampling_method`: Method for particle resampling ('stratified' by default)  
 - `observation_distribution`: Distribution of observations ('poisson by default) 
 - `forecast_days`: Number of days to forecast
+- `dt`: Time step (default is 1)
 - `num_cores`: Number of processor to be used in parallel ( defaut all available -1) 
 - `show_progress`: Whether to display a progress bar during computation  (default is TRue)
 
