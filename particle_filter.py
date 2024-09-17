@@ -10,7 +10,7 @@ from weight_processing import resampling_style, compute_log_weight
 def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, observed_data, num_particles, 
                     resampling_threshold=1, delta=0.99, population_size=6000, 
                     resampling_method='stratified', observation_distribution='poisson', 
-                    forecast_days=0, num_core=-1, show_progress=True):
+                    forecast_days=0, num_core=-1, dt=1, show_progress=True):
     """
     Perform Sequential Monte Carlo (Particle Filter) for state-space models.
 
@@ -27,6 +27,7 @@ def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, obser
     - observation_distribution: Distribution of observation ('poisson' by default)
     - forecast_days: Number of forecasting days (default is 14)
     - num_core: Number of processor to be used in parallel ( defaut all available -1) 
+    - dt : Time step
     - show_progress: Display progress bar (default is True)
 
     OUTPUTS:
@@ -85,7 +86,7 @@ def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, obser
                     theta = np.random.normal(m, h * theta_covariance**0.5)
 
        
-            trajectory = solve_model(model,theta, state, state_names, theta_names, t_start, t_end)
+            trajectory = solve_model(model,theta, state, state_names, theta_names, t_start, t_end, dt)
             model_point = trajectory[state_names]
 
             weight = particle_weights[j]
