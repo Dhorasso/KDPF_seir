@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='KDPF_seir',
-    version='0.1.0',
+    version='1.0',
     description='Stochastic SEIR model with Sequential Monte Carlo',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
