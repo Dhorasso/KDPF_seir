@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm  
 from joblib import Parallel, delayed
-from filter_preprocessing import initialization_state_theta, solve_model
-from weight_processing import resampling_style, compute_log_weight
+from KDPF_seir.filter_preprocessing import initialization_state_theta, solve_model
+from KDPF_seir.weight_processing import resampling_style, compute_log_weight
 
 def Kernel_Smoothing_Filter(model, initial_state_info, initial_theta_info, observed_data, num_particles, 
                     resampling_threshold=1, delta=0.99, population_size=6000, 
