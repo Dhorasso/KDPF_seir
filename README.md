@@ -244,7 +244,7 @@ matrix_dict = trace_smc(trajParticles)
 
 # Iterate through each key-value pair in matrix_dict and plot in a subplot
 for (state, matrix) in matrix_dict.items():
-    p = plot_smc(matrix) # use plot_smc(matrix, CI_95=False) if you don't want the 95% CI to appear
+    p = plot_smc(matrix) # use plot_smc(matrix, CI_50=False, CI_95=False) if you don't want the 50% or 95% CI to appear 
     if state == 'NI': # To plot the data with the filered estimate
         p +=geom_point(aes(x=simulated_data['time'], y=simulated_data['obs']),  fill='salmon', color='darkorange', size=1.5)
     p += theme(figure_size=(5,4))
@@ -265,7 +265,7 @@ matrix_dict = trace_smc(trajParticles)
 
 # Iterate through each key-value pair in matrix_dict and plot in a subplot
 for i, (state, matrix) in enumerate(matrix_dict.items()):
-    p = plot_smc(matrix) # use plot_smc(matrix, CI_95=False) if you don't want the 95% CI to appear
+    p = plot_smc(matrix) # use plot_smc(matrix, CI_50=False, CI_95=False) if you don't want the 50% or 95% CI to appear 
     p = p + geom_hline(yintercept=true_theta[i], color='orange', linetype='dashed', size=2)
     p += theme(figure_size=(4,3))
     p+= ylab(L[i])
