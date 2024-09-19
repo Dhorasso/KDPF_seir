@@ -280,6 +280,8 @@ for i, (state, matrix) in enumerate(matrix_dict.items()):
   <img src="Fig/gam_ep1.png" alt="Plot showing the results" width="200" />
 </p>
 
+Example with time-varying transmission rate and application to Ireland COVID-19 data can be found in the Test folder
+
 ## User Modifications
 Users can modify the SEIR model as described above, but they can also modify the likelihood function. This involves changing the `compute_log_weight` function in the `weight_processing.py` file.
 
