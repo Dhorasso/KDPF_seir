@@ -1,5 +1,5 @@
 # Stochastic-SEIR-model-with-SMC
-Implementation of a stochastic SEIR model using a kernel density particle filter for  oline state and parameter estimation. This repository includes detailed simulations using synthetics and real data.
+Implementation of a stochastic SEIR model using a kernel density-based particle filter for  oline state and parameter estimation. This repository includes detailed simulations using synthetics and real data.
 
 ## About
 This repository contains the implementation of a stochastic model to simulate and forecast the spread of COVID-19 in Ireland. The model is based on compartmental epidemiological structures and uses a sequeltial monte carlo to estimate and update state trajectories and model parameters over time.
