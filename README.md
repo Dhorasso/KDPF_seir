@@ -35,7 +35,7 @@ To install and set up the environment for running this model, follow these steps
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/Dhorasso/KDPF_seir.git
+    git clone https://github.com/Dhorasso/ksf_seir.git
     ```
 2. Install the required dependencies:
     ```bash
