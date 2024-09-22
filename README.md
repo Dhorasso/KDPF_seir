@@ -265,7 +265,7 @@ matrix_dict = trace_smc(trajParticles)
 
 # Iterate through each key-value pair in matrix_dict and plot in a subplot
 for i, (state, matrix) in enumerate(matrix_dict.items()):
-    p = plot_smc(matrix) # use plot_smc(matrix, CI_50=False, CI_95=False) if you don't want the 50% or 95% CI to appear 
+    p = plot_smc(matrix) # use plot_smc(matrix, color='dodgerblue', CI_50=False, CI_95=False) if you don't want the 50% or 95% CI to appear or change the color
     p = p + geom_hline(yintercept=true_theta[i], color='orange', linetype='dashed', size=2)
     p += theme(figure_size=(4,3))
     p+= ylab(L[i])
