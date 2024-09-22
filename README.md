@@ -100,6 +100,7 @@ from trace_plot import trace_smc, trace_smc_covid, plot_smc, plot_smc_covid
 # Define your SEIR Or extended-SEIR model
 # See stochastic_epidemic_model.py file to see you shoud define your mode
 # Here is a simple example with constant transmission rate
+# In their early stages, it is reasonable to assume that the epidemiological parameters remain constant during this period.
 # For disease with multiples wave is recommend to use a time-varying transmission rate
 # ( see seir_model_var for more detail)
 
