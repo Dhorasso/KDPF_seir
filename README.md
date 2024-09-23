@@ -265,13 +265,16 @@ for (state, matrix) in matrix_dict.items():
 trajParticles = results_filter['trajtheta']
 matrix_dict = trace_smc(trajParticles)
 
+Param_label = [r'Transmission rate $\beta$, r' Latency rate $\sigma$', r'Recovery rate $\gamma$']
+
 # Iterate through each key-value pair in matrix_dict and plot in a subplot
 for i, (state, matrix) in enumerate(matrix_dict.items()):
+
     p = plot_smc(matrix) # use plot_smc(matrix, color='dodgerblue', CI_50=False, CI_95=False) if you don't want 
                          # the 50% or 95% CI to appear  or to change the color
     p = p + geom_hline(yintercept=true_theta[i], color='orange', linetype='dashed', size=2)
     p += theme(figure_size=(4,3))
-    p+= ylab(L[i])
+    p+= ylab(Param_label[i])
     p += xlab("Time (days)")
 
     print(p)
