@@ -171,7 +171,7 @@ InitialState_example = [N_pop-1, 0, 1, 0, 0] #  ['S', 'E', 'I', 'R', 'NI']
 
 t_start = 0
 t_end = 120
-dt_example = 1 time step 
+dt_example = 1 #time step 
 
 # Specify the seed for reproductibility
 np.random.seed(123)
