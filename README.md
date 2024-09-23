@@ -187,9 +187,9 @@ simulated_data = pd.DataFrame({'time': results_example['time'], 'obs': results_e
 # The user can change the state names except for 'NI'. If the user wants to change it,
 # they must also update the function compute_log_weight in the weight_processing.py file.
 state_info = {
-    'S': {'prior': [N_pop - 3, N_pop, 0, 0, 'uniform']},  
+    'S': {'prior': [N_pop - 5, N_pop, 0, 0, 'uniform']},  
     'E': {'prior': [0, 0, 0, 0, 'uniform']},
-    'I': {'prior': [0, 3, 0, 0, 'uniform']},
+    'I': {'prior': [0, 5, 0, 0, 'uniform']},
     'R': {'prior': [0, 0, 0, 0, 'uniform']},
     'NI': {'prior': [0, 0, 0, 0, 'uniform']}
 }
