@@ -265,7 +265,7 @@ for (state, matrix) in matrix_dict.items():
 trajParticles = results_filter['trajtheta']
 matrix_dict = trace_smc(trajParticles)
 
-Param_label = [r'Transmission rate $\beta$, r' Latency rate $\sigma$', r'Recovery rate $\gamma$']
+Param_label = [r'Transmission rate $\beta$', r' Latency rate $\sigma$', r'Recovery rate $\gamma$']
 
 # Iterate through each key-value pair in matrix_dict and plot in a subplot
 for i, (state, matrix) in enumerate(matrix_dict.items()):
