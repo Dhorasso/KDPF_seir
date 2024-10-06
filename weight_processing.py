@@ -137,7 +137,7 @@ def compute_log_weight(observed_data_point, model_data_point, theta, theta_names
     model_est_case =  model_data_point['NI']
 
     if distribution_type == 'poisson':
-        log_likelihood = poisson.logpmf(y, mu= model_est_case)
+        log_likelihood = poisson.logpmf(int(y), mu= model_est_case)
 
     elif distribution_type == 'normal':
         epsi = 1e-4
@@ -155,13 +155,13 @@ def compute_log_weight(observed_data_point, model_data_point, theta, theta_names
         if variance < 1:
             variance = 1
         
-        log_likelihood = norm.logpdf(y, loc=model_est_case, scale=np.sqrt(variance))+poisson.logpmf(y_death, mu= model_est_death)
+        log_likelihood = norm.logpdf(int(y), loc=model_est_case, scale=np.sqrt(variance))+poisson.logpmf(y_death, mu= model_est_death)
 
     elif distribution_type == 'negative_binomial':
         overdisperssion = param['phi']
         p =1/ (1 + overdisperssion * model_est_case)
         n = 1 / overdisperssion
-        log_likelihood = nbinom.logpmf(y, n, p)
+        log_likelihood = nbinom.logpmf(int(y), n, p)
 
     else:
         raise ValueError("Invalid distribution type")
