@@ -61,10 +61,10 @@ def plot_smc(matrix, color='dodgerblue', CI_95=True, CI_50=True):
     # Calculate the 95% and 50% credible intervals
     credible_interval_95 = np.percentile(matrix, [2.5, 97.5], axis=0)
     credible_interval_50 = np.percentile(matrix, [25, 75], axis=0)
-    # Plotting the time evolution of the median
-    time_steps = np.arange(T)  # Assuming time steps are represented by the columns
-    # Create a ggplot object
-    p = ggplot() 
+    
+    # Plotting the time evolution o
+    time_steps = np.arange(T)  
+
     # Create a ggplot object
     p = ggplot() 
     #  Add a ribbon layer for the 95% credible interval
