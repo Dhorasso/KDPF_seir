@@ -54,11 +54,11 @@ The  `Kernel_Smoothing_Filter` function thake as inputs:
 - `observed_data`: Observed data (a DataFrame)
 - `num_particles`: Number of particles 
 - `resampling_threshold`: Threshold for effective sample size in resampling  
-- `delta`: Parameter for updating theta during resampling  
+- `delta`: Parameter for updating theta during resampling  (default is 0.99) 
 - `population_size`: Total population size  
 - `resampling_method`: Method for particle resampling ('stratified' by default)  
 - `observation_distribution`: Distribution of observations ('poisson by default) 
-- `forecast_days`: Number of days to forecast
+- `forecast_days`: Number of days to forecast  (default is 0)
 - `dt`: Time step (default is 1)
 - `num_cores`: Number of processor to be used in parallel ( defaut all available -1) 
 - `show_progress`: Whether to display a progress bar during computation  (default is TRue)
